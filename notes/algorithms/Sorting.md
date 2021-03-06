@@ -14,6 +14,8 @@ handle larger keys more efficiently.
 
 ### Example
 
+This example was found [HERE](https://youtu.be/7zuGmKfUt7s)
+
 Consider a list of `7` integers in the range `0 - 9`.
 
 ![image-1](../images/count-sort-1.png)
