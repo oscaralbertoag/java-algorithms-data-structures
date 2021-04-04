@@ -1,4 +1,4 @@
-package com.oscar.datastructure;
+package com.oscar.datastructure.heap;
 
 
 import java.util.ArrayList;

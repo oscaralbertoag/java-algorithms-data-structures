@@ -1,4 +1,4 @@
-package com.oscar.datastructure
+package com.oscar.datastructure.heap
 
 import spock.lang.Specification
 import spock.lang.Unroll
