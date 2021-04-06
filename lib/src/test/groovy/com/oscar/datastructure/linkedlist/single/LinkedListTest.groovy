@@ -15,13 +15,16 @@ class LinkedListTest extends Specification {
         then: "the resulting list matches the expected values"
         sourceList == result
 
+        and: "the resulting list is of the expected size"
+        expectedSize == linkedList.getSize()
+
         where:
-        sourceList                                  | _
-        ["Hi", "Hello", "hola", "Bonjour", "Hallo"] | _
-        ["One", "Two"]                              | _
-        ["First"]                                   | _
-        [1, 2, 3, 4]                                | _
-        []                                          | _
+        sourceList                                  | expectedSize
+        ["Hi", "Hello", "hola", "Bonjour", "Hallo"] | 5
+        ["One", "Two"]                              | 2
+        ["First"]                                   | 1
+        [1, 2, 3, 4]                                | 4
+        []                                          | 0
     }
 
     @Unroll
@@ -77,13 +80,16 @@ class LinkedListTest extends Specification {
         and: "the list doesn't contain the removed node anymore"
         expectedRemainingList == linkedList.asList()
 
+        and: "the list size changes accordingly"
+        expectedSize == linkedList.getSize()
+
         where:
-        sourceList   | toRemove | expected | expectedRemainingList
-        [1, 2, 3, 4] | 3        | 3        | [1, 2, 4]
-        [1, 2, 3, 4] | 2        | 2        | [1, 3, 4]
-        [1, 2, 3, 4] | 1        | 1        | [2, 3, 4]
-        [1, 2, 3, 4] | 4        | 4        | [1, 2, 3]
-        [1]          | 1        | 1        | []
+        sourceList   | toRemove | expected | expectedRemainingList | expectedSize
+        [1, 2, 3, 4] | 3        | 3        | [1, 2, 4]             | 3
+        [1, 2, 3, 4] | 2        | 2        | [1, 3, 4]             | 3
+        [1, 2, 3, 4] | 1        | 1        | [2, 3, 4]             | 3
+        [1, 2, 3, 4] | 4        | 4        | [1, 2, 3]             | 3
+        [1]          | 1        | 1        | []                    | 0
     }
 
     @Unroll
@@ -100,10 +106,13 @@ class LinkedListTest extends Specification {
         and: "the linked list remains unchanged"
         linkedList.asList() == sourceList
 
+        and: "the list size remains unchanged"
+        expectedSize == linkedList.getSize()
+
         where:
-        sourceList   | toRemove
-        [1, 2, 3, 4] | 5
-        []           | 1
+        sourceList   | toRemove | expectedSize
+        [1, 2, 3, 4] | 5        | 4
+        []           | 1        | 0
     }
 
     def "remove() and add() operations don't affect each other"() {
@@ -129,6 +138,9 @@ class LinkedListTest extends Specification {
 
         then: "the resulting list contains the expected elements"
         linkedList.asList() == [2, 4, 8, 9]
+
+        and: "the list size matches the number of remaining nodes"
+        linkedList.getSize() == 4
     }
 
     def "remove() second to last repeatedly has the expected outcome"() {
@@ -143,6 +155,9 @@ class LinkedListTest extends Specification {
 
         then: "the resulting list contains the expected elements"
         linkedList.asList() == [1, 2, 3, 7, 10]
+
+        and: "the resulting list matches the remaining nodes"
+        linkedList.getSize() == 5
     }
 
     def "remove() last repeatedly hast the expected outcome"() {
@@ -157,6 +172,9 @@ class LinkedListTest extends Specification {
 
         then: "the resulting list contains the expected elements"
         linkedList.asList() == [1, 2, 3, 4, 10]
+
+        and: "the list size reflects the remaining nodes"
+        linkedList.getSize() == 5
     }
 
     def "remove() until empty has the expected outcome"() {
@@ -171,6 +189,9 @@ class LinkedListTest extends Specification {
 
         then: "the expected nodes are in the list"
         linkedList.asList() == [10]
+
+        and: "the list size matches the remaining nodes"
+        linkedList.getSize() == 1
     }
 
     static LinkedList<?> buildLinkedList(List<?> list) {

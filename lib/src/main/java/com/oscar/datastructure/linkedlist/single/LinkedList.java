@@ -8,8 +8,14 @@ public class LinkedList<T> {
 
     private Node<T> root;
     private Node<T> last;
+    private int size = 0;
+
+    public int getSize() {
+        return size;
+    }
 
     public void add(T data) {
+        size++;
         if (root == null) {
             root = new Node<>(data);
             last = root;
@@ -53,6 +59,7 @@ public class LinkedList<T> {
             Optional<Node<T>> toReturn = Optional.of(root);
             root = root.getNext();
             if (root == last) last = null;
+            size--;
             return toReturn;
         }
 
@@ -63,6 +70,7 @@ public class LinkedList<T> {
                 Node<T> nextNext = next.getNext();
                 current.setNext(nextNext);
                 if (next == last) last = current;
+                size--;
                 return Optional.of(next);
             }
             current = current.getNext();
