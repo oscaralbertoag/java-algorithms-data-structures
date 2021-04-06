@@ -194,6 +194,44 @@ class LinkedListTest extends Specification {
         linkedList.getSize() == 1
     }
 
+    def "removeFirst() method correctly removes root node and size is adjusted accordingly"() {
+        given: "an existing linked list"
+        def linkedList = buildLinkedList([1, 2, 3, 4, 5])
+
+        when: "the first node is removed"
+        Optional<Node<Integer>> result = linkedList.removeFirst()
+
+        then: "the removed node is the root node"
+        result.isPresent()
+        result.get().getData() == 1
+
+        and: "the size is reduced by one"
+        linkedList.getSize() == 4
+
+        and: "the remaining list looks as expected"
+        [2, 3, 4, 5] == linkedList.asList()
+    }
+
+    def "multiple invocations of removeFirst() method correctly remove root node and size is adjusted accordingly"() {
+        given: "an existing linked list"
+        def linkedList = buildLinkedList([1, 2, 3, 4, 5])
+
+        when: "the first node is removed repeatedly"
+        linkedList.removeFirst()
+        linkedList.removeFirst()
+        Optional<Node<Integer>> result = linkedList.removeFirst()
+
+        then: "the removed node is the root node"
+        result.isPresent()
+        result.get().getData() == 3
+
+        and: "the size is reduced by 3"
+        linkedList.getSize() == 2
+
+        and: "the remaining list looks as expected"
+        [4, 5] == linkedList.asList()
+    }
+
     static LinkedList<?> buildLinkedList(List<?> list) {
         LinkedList<?> linkedList = new LinkedList<>()
         list.forEach({ word -> linkedList.add(word) })

@@ -79,4 +79,9 @@ public class LinkedList<T> {
         return Optional.empty();
     }
 
+    public Optional<Node<T>> removeFirst() {
+        if (root == null) return Optional.empty();
+        return remove(root.getData());
+    }
+
 }
